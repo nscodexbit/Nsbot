@@ -1,0 +1,60 @@
+runtime:
+  mode: backtest
+  random_seed: 42
+  base_currency: USDT
+  max_ram_gb: 8
+
+data:
+  symbols: [BTCUSDT, ETHUSDT, BNBUSDT]
+  start: "2023-01-01"
+  end: "2025-01-01"
+  timeframes: ["5m", "1h", "4h"]
+  parquet_dir: data/parquet
+  outlier_zscore_threshold: 6.0
+  rolling_norm_window: 288
+  max_history_years: 2
+
+model:
+  target_horizon_bars: 12
+  target_threshold: 0.002
+  confidence_threshold: 0.70
+  walk_forward_splits: 6
+  min_train_rows: 5000
+  xgboost:
+    n_estimators: 300
+    max_depth: 4
+    learning_rate: 0.03
+    subsample: 0.8
+    colsample_bytree: 0.8
+    reg_lambda: 4.0
+    objective: binary:logistic
+    eval_metric: logloss
+
+risk:
+  account_equity: 10000.0
+  risk_per_trade_pct: 0.01
+  kelly_cap_pct: 0.015
+  max_daily_loss_pct: 0.03
+  max_weekly_drawdown_pct: 0.08
+  max_open_trades: 3
+  disable_after_consecutive_losses: 5
+  min_rolling_sharpe: 0.0
+  leverage: 10
+  maintenance_margin_rate: 0.005
+  funding_rate_per_8h: 0.0001
+
+execution:
+  fee_bps: 4.0
+  slippage_bps: 2.0
+  spread_bps: 1.0
+  retry_attempts: 3
+  retry_backoff_seconds: 2
+
+portfolio:
+  max_assets: 5
+  max_pair_corr: 0.80
+
+telegram:
+  enabled: false
+  bot_token: ""
+  chat_id: ""
