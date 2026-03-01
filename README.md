@@ -53,3 +53,19 @@ make webui
 ```
 
 Then open `http://localhost:8501`.
+
+## Institutional AI Trading GUI (Research/Backtesting)
+
+A standalone modular implementation is available in `ai_trading_gui/`.
+
+```bash
+streamlit run ai_trading_gui/app.py
+```
+
+It includes:
+- yfinance OHLCV ingestion with validation
+- 300+ engineered micro indicators
+- XGBoost classification with time-series split + randomized search
+- optional walk-forward validation
+- vectorized backtester with fees/slippage/SL/TP and capital protection
+- interactive Plotly dashboard with exports
